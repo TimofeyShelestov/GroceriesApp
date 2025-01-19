@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/components/appbar.dart';
 import 'package:grocery_app/db/db.dart';
 
 class ListPage extends StatelessWidget {
@@ -12,9 +13,8 @@ class ListPage extends StatelessWidget {
     final listData = db[id];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(listData['title']),
-        centerTitle: true,
+      appBar: CustomAppBar(
+        title: 'title',
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

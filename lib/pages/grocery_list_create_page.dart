@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/components/appbar.dart';
 import 'package:grocery_app/components/error_snackbar.dart';
 import 'package:grocery_app/db/db.dart';
 import 'package:grocery_app/pages/all_list_page.dart';
@@ -47,8 +48,8 @@ class _GroceryListCreatePage extends State<GroceryListCreatePage> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Grocery List'),
+      appBar: CustomAppBar(
+        title: 'Create Grocery List',
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
