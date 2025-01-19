@@ -81,18 +81,43 @@ class _GroceryListCreatePage extends State<GroceryListCreatePage> {
               child: ListView.builder(
                 itemCount: _groceryItems.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(
-                      _groceryItems[index],
-                      style: TextStyle(color: colorScheme.onSurface),
+                  return Dismissible(
+                    key: ValueKey(_groceryItems[index]),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (direction) {
+                      setState(() {
+                        _groceryItems.removeAt(index);
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text('Item removed')), // Optional feedback
+                      );
+                    },
+                    background: Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      decoration: BoxDecoration(
+                        color: colorScheme.error,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.delete,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete, color: colorScheme.error),
-                      onPressed: () {
-                        setState(() {
-                          _groceryItems.removeAt(index);
-                        });
-                      },
+                    child: Card(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      color: colorScheme.surface,
+                      child: ListTile(
+                        title: Text(
+                          _groceryItems[index],
+                          style: TextStyle(color: colorScheme.onSurface),
+                        ),
+                      ),
                     ),
                   );
                 },
@@ -102,11 +127,15 @@ class _GroceryListCreatePage extends State<GroceryListCreatePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                FloatingActionButton(
+                ElevatedButton(
+                  //TODO: ADD STYLES AND CHANGE COLOT SCHEME
+                  // style: ElevatedButton.styleFrom(
+                  //   backgroundColor: Theme.of(context).colorScheme.secondary,
+                  // ),
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Cancel'),
                 ),
-                FloatingActionButton(
+                ElevatedButton(
                   onPressed: _saveList,
                   child: const Text('Save'),
                 ),

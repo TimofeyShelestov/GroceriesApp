@@ -1,17 +1,25 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_app/components/appbar.dart';
 import 'package:grocery_app/components/list_card.dart';
 import 'package:grocery_app/db/db.dart';
 import 'package:grocery_app/pages/grocery_list_create_page.dart';
+import 'package:grocery_app/themes/provider.dart';
+import 'package:provider/provider.dart';
 
-class AllListPage extends StatelessWidget {
+class AllListPage extends StatefulWidget {
   const AllListPage({super.key});
 
   @override
+  State<AllListPage> createState() => _AllListPageState();
+}
+
+class _AllListPageState extends State<AllListPage> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Your Groceries"),
-        centerTitle: true,
+      appBar: CustomAppBar(
+        title: "All Groceries List",
       ),
       body: Stack(
         children: [
