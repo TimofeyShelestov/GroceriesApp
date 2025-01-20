@@ -11,7 +11,6 @@ class ThemeProvider with ChangeNotifier {
 
   set themeData(ThemeData themeData) {
     _themeData = themeData;
-    notifyListeners();
   }
 
   void toggleTheme() {
@@ -20,5 +19,6 @@ class ThemeProvider with ChangeNotifier {
     } else {
       _themeData = darkTheme;
     }
+    notifyListeners();
   }
 }
