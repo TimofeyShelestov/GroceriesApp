@@ -41,10 +41,17 @@ class ListPage extends StatelessWidget {
                         ),
                       ),
                       title: Text(
-                        listData['list'][index],
+                        listData['list'][index]['title'],
                         style: TextStyle(
                           fontSize: 18,
                           color: colorScheme.onSurface,
+                        ),
+                      ),
+                      subtitle: Text(
+                        "Amount: " + listData['list'][index]['amount'],
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: colorScheme.primary,
                         ),
                       ),
                     ),

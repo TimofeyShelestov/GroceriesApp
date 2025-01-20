@@ -12,24 +12,29 @@ class GroceryListCreatePage extends StatefulWidget {
 }
 
 class _GroceryListCreatePage extends State<GroceryListCreatePage> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _itemController = TextEditingController();
-  final List<String> _groceryItems = [];
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _itemTitleController = TextEditingController();
+  final TextEditingController _itemAmountController = TextEditingController();
+  final List<Object> _groceryItems = [];
 
   void _addItem() {
-    final item = _itemController.text.trim();
-    if (item.isNotEmpty) {
+    final itemTitle = _itemTitleController.text.trim();
+    final itemAmount = _itemAmountController.text.trim();
+    if (itemTitle.isNotEmpty && itemAmount.isNotEmpty) {
       setState(() {
-        _groceryItems.add(item);
+        _groceryItems.add(
+          {"title": itemTitle, "amount": itemAmount},
+        );
       });
-      _itemController.clear();
+      _itemTitleController.clear();
+      _itemAmountController.clear();
     }
   }
 
   void _saveList() {
-    final name = _nameController.text.trim();
-    if (name.isNotEmpty && _groceryItems.isNotEmpty) {
-      final groceryObj = {"title": name, "list": _groceryItems};
+    final title = _titleController.text.trim();
+    if (title.isNotEmpty && _groceryItems.isNotEmpty) {
+      final groceryObj = {"title": title, "list": _groceryItems};
       db.add(groceryObj);
       Navigator.push(
         context,
@@ -39,7 +44,7 @@ class _GroceryListCreatePage extends State<GroceryListCreatePage> {
       );
     } else {
       ErrorSnackbar.show(
-          context, 'You should have at list one item and defined name');
+          context, 'You should have at list one item and defined title');
     }
   }
 
@@ -57,16 +62,16 @@ class _GroceryListCreatePage extends State<GroceryListCreatePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              controller: _nameController,
+              controller: _titleController,
               decoration: InputDecoration(
-                labelText: 'List Name',
+                labelText: 'List title',
                 labelStyle: TextStyle(color: colorScheme.primary),
                 border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
             TextField(
-              controller: _itemController,
+              controller: _itemTitleController,
               decoration: InputDecoration(
                 labelText: 'Add Item',
                 labelStyle: TextStyle(color: colorScheme.primary),
@@ -74,6 +79,18 @@ class _GroceryListCreatePage extends State<GroceryListCreatePage> {
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: _addItem,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 4,
+              child: TextField(
+                controller: _itemAmountController,
+                decoration: InputDecoration(
+                  labelText: 'Amount',
+                  labelStyle: TextStyle(color: colorScheme.primary),
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ),
@@ -115,8 +132,14 @@ class _GroceryListCreatePage extends State<GroceryListCreatePage> {
                       color: colorScheme.surface,
                       child: ListTile(
                         title: Text(
-                          _groceryItems[index],
+                          (_groceryItems[index] as Map)['title'],
                           style: TextStyle(color: colorScheme.onSurface),
+                        ),
+                        trailing: Text(
+                          (_groceryItems[index] as Map)['amount'],
+                          style: TextStyle(
+                            color: colorScheme.onSurface,
+                          ),
                         ),
                       ),
                     ),
@@ -129,10 +152,9 @@ class _GroceryListCreatePage extends State<GroceryListCreatePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
-                  //TODO: ADD STYLES AND CHANGE COLOT SCHEME
-                  // style: ElevatedButton.styleFrom(
-                  //   backgroundColor: Theme.of(context).colorScheme.secondary,
-                  // ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                  ),
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Cancel'),
                 ),
